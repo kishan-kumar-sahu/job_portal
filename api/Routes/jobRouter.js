@@ -1,0 +1,11 @@
+import express from "express";
+import { createJob, getAllJobs, getJobById, updateJob, deleteJob } from "../controllers/jobController.js";
+import { userAuth } from "../Middleware/userAuth.js";
+import { requireRole } from "../Middleware/requireRole.js";
+const router = express.Router();
+router.post("/", userAuth, requireRole("recruiter", "admin"), createJob);
+router.get("/all", userAuth, getAllJobs);
+router.get("/:id", userAuth, getJobById);
+router.put("/:id", userAuth, requireRole("recruiter", "admin"), updateJob);
+router.delete("/:id", userAuth, requireRole("recruiter", "admin"), deleteJob);
+export default router;

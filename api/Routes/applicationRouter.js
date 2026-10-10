@@ -1,0 +1,12 @@
+import express from "express";
+import { createApplication, getMyApplications, getApplicationById, withdrawApplication, updateApplicationStatus, getRecruiterApplications } from "../controllers/applicationController.js";
+import { userAuth } from "../Middleware/userAuth.js";
+import { requireRole } from "../Middleware/requireRole.js";
+const router = express.Router();
+router.post("/", userAuth, requireRole("candidate"), createApplication);
+router.get("/", userAuth, requireRole("candidate"), getMyApplications);
+router.get("/withdraw/:id", userAuth, requireRole("candidate"), withdrawApplication);
+router.get("/recruiter/all", userAuth, requireRole("recruiter", "admin"), getRecruiterApplications);
+router.get("/:id", userAuth, getApplicationById);
+router.put("/:id", userAuth, requireRole("recruiter", "admin"), updateApplicationStatus);
+export default router;

@@ -1,0 +1,10 @@
+import express from "express";
+import { createCompany, getCompany, updateCompany, deleteCompany } from "../controllers/companyController.js";
+import { userAuth } from "../Middleware/userAuth.js";
+import { requireRole } from "../Middleware/requireRole.js";
+const router = express.Router();
+router.post("/", userAuth, requireRole("recruiter", "admin"), createCompany);
+router.get("/:id", userAuth, getCompany);
+router.put("/:id", userAuth, requireRole("recruiter", "admin"), updateCompany);
+router.delete("/:id", userAuth, requireRole("recruiter", "admin"), deleteCompany);
+export default router;

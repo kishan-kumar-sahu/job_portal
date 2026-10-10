@@ -1,0 +1,10 @@
+import express from "express";
+import { createRecruiterProfile, getMyRecruiterProfile, updateRecruiterProfile, deleteRecruiterProfile } from "../controllers/recruiterController.js";
+import { userAuth } from "../Middleware/userAuth.js";
+import { requireRole } from "../Middleware/requireRole.js";
+const router = express.Router();
+router.post("/create", userAuth, requireRole("recruiter", "admin"), createRecruiterProfile);
+router.get("/", userAuth, requireRole("recruiter", "admin"), getMyRecruiterProfile);
+router.put("/:id", userAuth, requireRole("recruiter", "admin"), updateRecruiterProfile);
+router.delete("/:id", userAuth, requireRole("recruiter", "admin"), deleteRecruiterProfile);
+export default router;

@@ -1,0 +1,12 @@
+import express from "express";
+import { createCandidateProfile, getMyCandidateProfile, updateCandidateProfile, deleteCandidateProfile, getSavedJobs, toggleSavedJob } from "../controllers/candidateController.js";
+import { userAuth } from "../Middleware/userAuth.js";
+import { requireRole } from "../Middleware/requireRole.js";
+const router = express.Router();
+router.post("/create", userAuth, requireRole("candidate", "admin"), createCandidateProfile);
+router.get("/profile", userAuth, requireRole("candidate", "admin"), getMyCandidateProfile);
+router.get("/saved-jobs", userAuth, requireRole("candidate", "admin"), getSavedJobs);
+router.patch("/saved-jobs/:jobId", userAuth, requireRole("candidate", "admin"), toggleSavedJob);
+router.put("/:userId", userAuth, requireRole("candidate", "admin"), updateCandidateProfile);
+router.delete("/:userId", userAuth, requireRole("candidate", "admin"), deleteCandidateProfile);
+export default router;
